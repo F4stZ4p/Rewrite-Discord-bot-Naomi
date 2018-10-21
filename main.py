@@ -9,7 +9,7 @@ import discord
 from discord.ext import commands
 
 class Naomi(commands.AutoShardedBot):
-    def __init__(self, **kwargs):
+    def __init__(self):
         
         super().__init__(command_prefix=commands.when_mentioned_or(os.getenv("PREFIX")), case_insensitive=True, fetch_offline_members=False)
         
