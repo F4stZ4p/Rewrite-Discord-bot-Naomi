@@ -11,11 +11,7 @@ from discord.ext import commands
 class Naomi(commands.AutoShardedBot):
     def __init__(self, **kwargs):
         
-        self.prefix = kwargs.pop("BOTPREFIX")
-        self.cins = kwargs.pop("CINS")
-        self.fom = kwargs.pop("FOM")
-
-        super().__init__(command_prefix=commands.when_mentioned_or(self.prefix), case_insensitive=self.cins, fetch_offline_members=self.fom)
+        super().__init__(command_prefix=commands.when_mentioned_or(os.getenv("PREFIX")), case_insensitive=True, fetch_offline_members=False)
         
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.game_activity = 'playing'
@@ -62,4 +58,4 @@ class Naomi(commands.AutoShardedBot):
         self.loop.create_task(presence())
 
 if __name__ == '__main__':
-    Naomi(**{"BOTPREFIX": os.getenv('PREFIX'), "CINS": True, "FOM": False}).run()
+    Naomi().run()
