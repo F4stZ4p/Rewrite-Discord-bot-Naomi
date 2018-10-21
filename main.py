@@ -10,7 +10,12 @@ from discord.ext import commands
 
 class Naomi(commands.AutoShardedBot):
     def __init__(self, **kwargs):
-        super().__init__(command_prefix=commands.when_mentioned_or(kwargs.pop("BOTPREFIX")), case_insensitive=kwargs.pop("CINS"), fetch_offline_members=kwargs.pop("FOM"))
+        
+        self.prefix = kwargs.pop("BOTPREFIX")
+        self.cins = kwargs.pop("CINS")
+        self.fom = kwargs.pop("FOM")
+
+        super().__init__(command_prefix=commands.when_mentioned_or(self.prefix), case_insensitive=self.cins, fetch_offline_members=self.fom)
         
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.game_activity = 'playing'
@@ -27,7 +32,7 @@ class Naomi(commands.AutoShardedBot):
                          f'{len(self.users)} участников!',
                          f'{len(self.emojis)} эмодзи!',
                          f'{len([x.name for x in self.commands if not x.hidden])} команд!',
-                         f'{kwargs.pop("BOTPREFIX")}help']
+                         f'{self.prefix}help']
                          
     def __repr__(self):
         return "Я - Бот Наоми :)"
